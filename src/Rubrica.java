@@ -25,4 +25,12 @@ public class Rubrica {
         persone.remove(persona);
         persone.add(personaModificata);
     }
+
+    public void eliminaPersona(Persona persona) {
+        if (!persone.contains(persona)) {
+            throw new IllegalArgumentException("Non è possibile eliminare una persona non presente nella rubrica alla rubrica");
+        }
+
+        persone.remove(persona);
+    }
 }
