@@ -16,4 +16,13 @@ public class Rubrica {
 
         persone.add(persona);
     }
+
+    public void modificaPersona(Persona persona, Persona personaModificata) {
+        if (!persone.contains(persona)) {
+            throw new IllegalArgumentException("Non è possibile modificare una persona non presente nella rubrica alla rubrica");
+        }
+
+        persone.remove(persona);
+        persone.add(personaModificata);
+    }
 }
