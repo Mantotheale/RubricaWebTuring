@@ -2,20 +2,34 @@ import javax.swing.table.AbstractTableModel;
 import java.util.*;
 
 public class Rubrica extends AbstractTableModel {
-    private final List<Persona> persone = new ArrayList<>();
+    private List<Persona> persone = new ArrayList<>();
+    private final RubricaDbManager dbManager;
+
+    public Rubrica(RubricaDbManager dbManager) {
+        this.dbManager = dbManager;
+        caricaPersone();
+    }
+
+    private void caricaPersone() {
+        persone = dbManager.getPersone();
+    }
 
     public void aggiungiPersona(Persona persona) {
-        persone.add(persona);
+        dbManager.aggiungiPersona(persona);
+        caricaPersone();
         fireTableDataChanged();
+
     }
 
     public void modificaPersona(int indice, Persona personaModificata) {
-        persone.set(indice, personaModificata);
+        dbManager.modificaPersona(persone.get(indice), personaModificata);
+        caricaPersone();
         fireTableDataChanged();
     }
 
     public void eliminaPersona(int indice) {
-        persone.remove(indice);
+        dbManager.eliminaPersona(persone.get(indice));
+        caricaPersone();
         fireTableDataChanged();
     }
 

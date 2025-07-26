@@ -1,6 +1,7 @@
 import java.util.Objects;
 
 public record Persona (
+        int id,
         String nome,
         String cognome,
         String indirizzo,
@@ -27,5 +28,9 @@ public record Persona (
         if (eta < 0) {
             throw new IllegalArgumentException("L'età non può essere negativa");
         }
+    }
+
+    public Persona(String nome, String cognome, String indirizzo, String telefono, int eta) {
+        this(0, nome, cognome, indirizzo, telefono, eta);
     }
 }
