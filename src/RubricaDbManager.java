@@ -84,4 +84,19 @@ public class RubricaDbManager {
         eliminaPersona(personaVecchia);
         aggiungiPersona(personaNuova);
     }
+
+    public boolean verificaUtente(String username, String password) {
+        String sql = "SELECT * FROM utenti WHERE username=? AND password=?";
+        try (Connection conn = connetti();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, username);
+            ps.setString(2, password);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
