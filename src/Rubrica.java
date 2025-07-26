@@ -19,10 +19,6 @@ public class Rubrica extends AbstractTableModel {
         fireTableDataChanged();
     }
 
-    /*public int size() {
-        return persone.size();
-    }*/
-
     public Persona getPersona(int indice) {
         return persone.get(indice);
     }

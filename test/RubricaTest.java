@@ -1,7 +1,5 @@
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class RubricaTest {
@@ -19,7 +17,7 @@ class RubricaTest {
 
         rubrica.aggiungiPersona(persona);
 
-        assertEquals(List.of(persona), rubrica.persone());
+        assertEquals(persona, rubrica.getPersona(0));
     }
 
     @Test
@@ -43,9 +41,9 @@ class RubricaTest {
         );
 
         rubrica.aggiungiPersona(persona);
-        rubrica.modificaPersona(persona, personaModificata);
+        rubrica.modificaPersona(0, personaModificata);
 
-        assertEquals(List.of(personaModificata), rubrica.persone());
+        assertEquals(personaModificata, rubrica.getPersona(0));
     }
 
     @Test
@@ -70,8 +68,8 @@ class RubricaTest {
 
         rubrica.aggiungiPersona(persona1);
         rubrica.aggiungiPersona(persona2);
-        rubrica.eliminaPersona(persona1);
+        rubrica.eliminaPersona(0);
 
-        assertEquals(List.of(persona2), rubrica.persone());
+        assertEquals(persona2, rubrica.getPersona(0));
     }
 }
