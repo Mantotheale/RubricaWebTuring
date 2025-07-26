@@ -24,7 +24,7 @@ public class Main {
             JScrollPane scrollPane = new JScrollPane(tabella);
             frame.add(scrollPane, BorderLayout.CENTER);
 
-            BottoniRubrica bottoni = new BottoniRubrica(frame, rubrica, tableModel);
+            BottoniRubrica bottoni = new BottoniRubrica(frame, rubrica, tableModel, tabella);
             frame.add(bottoni, BorderLayout.SOUTH);
 
             frame.setSize(600, 600);

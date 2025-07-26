@@ -33,6 +33,10 @@ public class RubricaTableModel extends AbstractTableModel {
         return colonne[c];
     }
 
+    public Persona getRiga(int r) {
+        return persone.get(r);
+    }
+
     @Override
     public void fireTableDataChanged() {
         persone = rubrica.persone();
