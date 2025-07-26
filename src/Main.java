@@ -17,14 +17,12 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Rubrica");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-            RubricaTableModel tableModel = new RubricaTableModel(rubrica);
-            JTable tabella = new JTable(tableModel);
+            JTable tabella = new JTable(rubrica);
 
             JScrollPane scrollPane = new JScrollPane(tabella);
             frame.add(scrollPane, BorderLayout.CENTER);
 
-            BottoniRubrica bottoni = new BottoniRubrica(frame, rubrica, tableModel, tabella);
+            BottoniRubrica bottoni = new BottoniRubrica(frame, rubrica, tabella);
             frame.add(bottoni, BorderLayout.SOUTH);
 
             frame.setSize(600, 600);

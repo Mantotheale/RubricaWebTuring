@@ -2,12 +2,12 @@ import javax.swing.*;
 import java.util.Optional;
 
 public class BottoniRubrica extends JPanel {
-    public BottoniRubrica(JFrame parent, Rubrica rubrica, RubricaTableModel tableModel, JTable tabella) {
+    public BottoniRubrica(JFrame parent, Rubrica rubrica, JTable tabella) {
         super();
 
-        BottoneNuovo nuovo = new BottoneNuovo(parent, rubrica, tableModel);
-        JButton modifica = new BottoneModifica(parent, rubrica, tableModel, tabella);
-        JButton elimina = new BottoneElimina(rubrica, tableModel, tabella);
+        BottoneNuovo nuovo = new BottoneNuovo(parent, rubrica);
+        JButton modifica = new BottoneModifica(parent, rubrica, tabella);
+        JButton elimina = new BottoneElimina(rubrica, tabella);
 
         add(nuovo);
         add(modifica);
@@ -15,7 +15,7 @@ public class BottoniRubrica extends JPanel {
     }
 
     private static class BottoneNuovo extends JButton {
-        public BottoneNuovo(JFrame frame, Rubrica rubrica, RubricaTableModel tableModel) {
+        public BottoneNuovo(JFrame frame, Rubrica rubrica) {
             super("Nuovo");
 
             addActionListener(_ -> {
@@ -23,16 +23,13 @@ public class BottoniRubrica extends JPanel {
                 editor.setVisible(true);
 
                 Optional<Persona> risultatoDialog = editor.risultatoDialog();
-                risultatoDialog.ifPresent(p -> {
-                    rubrica.aggiungiPersona(p);
-                    tableModel.fireTableDataChanged();
-                });
+                risultatoDialog.ifPresent(rubrica::aggiungiPersona);
             });
         }
     }
 
     private static class BottoneModifica extends JButton {
-        public BottoneModifica(JFrame frame, Rubrica rubrica, RubricaTableModel tableModel, JTable tabella) {
+        public BottoneModifica(JFrame frame, Rubrica rubrica, JTable tabella) {
             super("Modifica");
 
             addActionListener(_ -> {
@@ -41,21 +38,18 @@ public class BottoniRubrica extends JPanel {
                     JOptionPane.showMessageDialog(this, "Seleziona una persona da modificare.");
                     return;
                 }
-                Persona personaSelezionata = tableModel.getRiga(rigaSelezionata);
+                Persona personaSelezionata = rubrica.getPersona(rigaSelezionata);
 
                 EditorPersona editor = new EditorPersona(frame, personaSelezionata);
                 editor.setVisible(true);
 
-                editor.risultatoDialog().ifPresent(p -> {
-                    rubrica.modificaPersona(personaSelezionata, p);
-                    tableModel.fireTableDataChanged();
-                });
+                editor.risultatoDialog().ifPresent(p -> rubrica.modificaPersona(rigaSelezionata, p));
             });
         }
     }
 
     private static class BottoneElimina extends JButton {
-        public BottoneElimina(Rubrica rubrica, RubricaTableModel tableModel, JTable tabella) {
+        public BottoneElimina(Rubrica rubrica, JTable tabella) {
             super("Elimina");
 
             addActionListener(_ -> {
@@ -64,12 +58,11 @@ public class BottoniRubrica extends JPanel {
                     JOptionPane.showMessageDialog(this, "Seleziona una persona da eliminare.");
                     return;
                 }
-                Persona personaSelezionata = tableModel.getRiga(rigaSelezionata);
+                Persona personaSelezionata = rubrica.getPersona(rigaSelezionata);
 
                 String dialogText = "Eliminare la persona " + personaSelezionata.nome() + " " + personaSelezionata.cognome() + "?";
                 if (JOptionPane.showConfirmDialog(this, dialogText) == JOptionPane.YES_OPTION) {
-                    rubrica.eliminaPersona(personaSelezionata);
-                    tableModel.fireTableDataChanged();
+                    rubrica.eliminaPersona(rigaSelezionata);
                 }
             });
         }

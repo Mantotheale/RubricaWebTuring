@@ -1,36 +1,57 @@
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.swing.table.AbstractTableModel;
+import java.util.*;
 
-public class Rubrica {
-    private final Set<Persona> persone = new HashSet<>();
-
-    public List<Persona> persone() {
-        return persone.stream().toList();
-    }
+public class Rubrica extends AbstractTableModel {
+    private final List<Persona> persone = new ArrayList<>();
 
     public void aggiungiPersona(Persona persona) {
-        if (persone.contains(persona)) {
-            throw new IllegalArgumentException("Non puoi aggiungere alla rubrica una persona già esistente");
-        }
-
         persone.add(persona);
+        fireTableDataChanged();
     }
 
-    public void modificaPersona(Persona persona, Persona personaModificata) {
-        if (!persone.contains(persona)) {
-            throw new IllegalArgumentException("Non è possibile modificare una persona non presente nella rubrica alla rubrica");
-        }
-
-        persone.remove(persona);
-        persone.add(personaModificata);
+    public void modificaPersona(int indice, Persona personaModificata) {
+        persone.set(indice, personaModificata);
+        fireTableDataChanged();
     }
 
-    public void eliminaPersona(Persona persona) {
-        if (!persone.contains(persona)) {
-            throw new IllegalArgumentException("Non è possibile eliminare una persona non presente nella rubrica alla rubrica");
-        }
+    public void eliminaPersona(int indice) {
+        persone.remove(indice);
+        fireTableDataChanged();
+    }
 
-        persone.remove(persona);
+    /*public int size() {
+        return persone.size();
+    }*/
+
+    public Persona getPersona(int indice) {
+        return persone.get(indice);
+    }
+
+    private final static String[] colonne = { "Nome", "Cognome", "Telefono" };
+
+    @Override
+    public int getRowCount() {
+        return persone.size();
+    }
+
+    @Override
+    public int getColumnCount() {
+        return colonne.length;
+    }
+
+    @Override
+    public Object getValueAt(int r, int c) {
+        Persona p = persone.get(r);
+        return switch (c) {
+            case 0 -> p.nome();
+            case 1 -> p.cognome();
+            case 2 -> p.telefono();
+            default -> throw new IllegalArgumentException("Non ci sono altre colonne");
+        };
+    }
+
+    @Override
+    public String getColumnName(int c) {
+        return colonne[c];
     }
 }
